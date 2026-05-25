@@ -1,7 +1,11 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
-// https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
+  css: {
+    // Vite 8 defaults to lightningcss which doesn't understand @tailwind directives.
+    // Force PostCSS so tailwindcss processes directives before any minification step.
+    transformer: 'postcss',
+  },
 })
