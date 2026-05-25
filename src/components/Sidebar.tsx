@@ -26,14 +26,14 @@ export function Sidebar({ activeNav, setActiveNav, open, onClose }: SidebarProps
             <Brain size={13} className="text-violet-400" />
           </div>
           <div>
-            <p className="text-[13.5px] font-semibold text-[#e4e6f5] leading-none tracking-tight">
+            <p className="text-[13.5px] font-semibold text-[#eef0fb] leading-none tracking-tight">
               Second Brain
             </p>
-            <p className="text-[10px] text-[#3a3d5c] mt-1 tracking-wide">Knowledge Vault</p>
+            <p className="text-[10px] text-[#636a8a] mt-1 tracking-wide">Knowledge Vault</p>
           </div>
         </div>
         <button
-          className="lg:hidden p-1.5 rounded-md text-[#6b7094] hover:text-[#e4e6f5] hover:bg-white/[0.05] transition-colors duration-150 cursor-pointer"
+          className="lg:hidden p-1.5 rounded-md text-[#8b91b8] hover:text-[#eef0fb] hover:bg-white/[0.05] transition-colors duration-150 cursor-pointer"
           onClick={onClose}
           aria-label="Close sidebar"
         >
@@ -62,7 +62,7 @@ export function Sidebar({ activeNav, setActiveNav, open, onClose }: SidebarProps
                 'transition-colors duration-150 cursor-pointer',
                 isActive
                   ? 'bg-violet-600/[0.14] text-violet-300'
-                  : 'text-[#6b7094] hover:bg-white/[0.04] hover:text-[#dde0f0]',
+                  : 'text-[#8b91b8] hover:bg-white/[0.04] hover:text-[#eef0fb]',
               ].join(' ')}
               onClick={() => { setActiveNav(item.id); onClose() }}
             >
@@ -82,11 +82,11 @@ export function Sidebar({ activeNav, setActiveNav, open, onClose }: SidebarProps
           A
         </div>
         <div className="flex-1 min-w-0">
-          <p className="text-[12px] font-medium text-[#e4e6f5] truncate leading-none">Alex Rivera</p>
-          <p className="text-[10px] text-[#3a3d5c] tracking-wider mt-1">PRO ACCOUNT</p>
+          <p className="text-[12px] font-medium text-[#eef0fb] truncate leading-none">Alex Rivera</p>
+          <p className="text-[10px] text-[#636a8a] tracking-wider mt-1">PRO ACCOUNT</p>
         </div>
         <button
-          className="p-1.5 rounded-md text-[#3a3d5c] hover:text-[#6b7094] hover:bg-white/[0.04] transition-colors duration-150 cursor-pointer"
+          className="p-1.5 rounded-md text-[#636a8a] hover:text-[#8b91b8] hover:bg-white/[0.04] transition-colors duration-150 cursor-pointer"
           aria-label="Settings"
         >
           <Settings size={13} />
