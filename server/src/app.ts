@@ -4,6 +4,8 @@ import helmet from 'helmet'
 import compression from 'compression'
 import rateLimit from 'express-rate-limit'
 import type { RequestHandler } from 'express'
+import { existsSync } from 'node:fs'
+import { join } from 'node:path'
 import pino from 'pino'
 import { config } from './config.js'
 import { apiRouter } from './routes/index.js'
@@ -26,6 +28,7 @@ const requestLogger: RequestHandler = (req, res, next) => {
 
 export function createApp() {
   const app = express()
+  const serveClient = config.isProd && existsSync(config.clientDistPath)
 
   app.set('trust proxy', 1)
 
@@ -34,7 +37,7 @@ export function createApp() {
   app.use(helmet())
   app.use(
     cors({
-      origin: config.corsOrigin,
+      origin: serveClient ? true : config.corsOrigin,
       credentials: true,
     }),
   )
@@ -53,15 +56,26 @@ export function createApp() {
     }),
   )
 
-  app.get('/', (_req, res) => {
-    res.json({
-      name: 'Second Brain API',
-      version: '1.0.0',
-      docs: '/api/health',
-    })
-  })
-
   app.use('/api', apiRouter)
+
+  if (serveClient) {
+    app.use(express.static(config.clientDistPath))
+    app.get(/^(?!\/api).*/, (req, res, next) => {
+      if (req.method !== 'GET' && req.method !== 'HEAD') {
+        next()
+        return
+      }
+      res.sendFile(join(config.clientDistPath, 'index.html'))
+    })
+  } else {
+    app.get('/', (_req, res) => {
+      res.json({
+        name: 'Second Brain API',
+        version: '1.0.0',
+        docs: '/api/health',
+      })
+    })
+  }
 
   app.use(notFoundHandler)
   app.use(errorHandler)

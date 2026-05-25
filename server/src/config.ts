@@ -15,6 +15,7 @@ const envSchema = z.object({
   RATE_LIMIT_WINDOW_MS: z.coerce.number().int().positive().default(900_000),
   RATE_LIMIT_MAX: z.coerce.number().int().positive().default(300),
   LOG_LEVEL: z.enum(['fatal', 'error', 'warn', 'info', 'debug', 'trace']).default('info'),
+  CLIENT_DIST_PATH: z.string().optional(),
 })
 
 const parsed = envSchema.safeParse(process.env)
@@ -26,13 +27,22 @@ if (!parsed.success) {
 
 const env = parsed.data
 
+function resolvePath(base: string, target: string): string {
+  return target.startsWith('/') ? target : resolve(base, target)
+}
+
+const serverRoot = resolve(__dirname, '..')
+
 export const config = {
   env: env.NODE_ENV,
   isProd: env.NODE_ENV === 'production',
   port: env.PORT,
   host: env.HOST,
-  databasePath: resolve(__dirname, '..', env.DATABASE_PATH),
+  databasePath: resolvePath(serverRoot, env.DATABASE_PATH),
   corsOrigin: env.CORS_ORIGIN,
+  clientDistPath: env.CLIENT_DIST_PATH
+    ? resolvePath(serverRoot, env.CLIENT_DIST_PATH)
+    : resolve(serverRoot, '..', 'client/dist'),
   rateLimit: {
     windowMs: env.RATE_LIMIT_WINDOW_MS,
     max: env.RATE_LIMIT_MAX,
