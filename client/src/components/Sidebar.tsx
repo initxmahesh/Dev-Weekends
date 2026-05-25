@@ -6,9 +6,10 @@ interface SidebarProps {
   setActiveNav: (id: string) => void
   open: boolean
   onClose: () => void
+  onNewNote: () => void
 }
 
-export function Sidebar({ activeNav, setActiveNav, open, onClose }: SidebarProps) {
+export function Sidebar({ activeNav, setActiveNav, open, onClose, onNewNote }: SidebarProps) {
   return (
     <aside
       className={[
@@ -43,7 +44,11 @@ export function Sidebar({ activeNav, setActiveNav, open, onClose }: SidebarProps
 
       {/* New Note */}
       <div className="px-4 mb-5 shrink-0">
-        <button className="w-full flex items-center justify-center gap-1.5 py-2 px-4 rounded-lg bg-violet-600 hover:bg-violet-500 text-white text-[13px] font-medium transition-colors duration-150 cursor-pointer">
+        <button
+          type="button"
+          onClick={onNewNote}
+          className="w-full flex items-center justify-center gap-1.5 py-2 px-4 rounded-lg bg-violet-600 hover:bg-violet-500 text-white text-[13px] font-medium transition-colors duration-150 cursor-pointer"
+        >
           <Plus size={14} />
           New Note
         </button>

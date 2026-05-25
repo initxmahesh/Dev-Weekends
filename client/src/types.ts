@@ -23,6 +23,9 @@ export interface RecentNote {
   code?: string
   items?: string[]
   date: string
+  folder?: string
+  tags?: string[]
+  url?: string
 }
 
 export interface TrendingTag {
