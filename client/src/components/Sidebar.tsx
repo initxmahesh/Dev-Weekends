@@ -14,14 +14,14 @@ export function Sidebar({ activeNav, setActiveNav, open, onClose, onNewNote }: S
     <aside
       className={[
         'fixed lg:relative inset-y-0 left-0 z-50 lg:z-auto',
-        'w-[220px] shrink-0 flex flex-col h-full',
+        'w-[min(85vw,260px)] sm:w-[220px] shrink-0 flex flex-col h-full',
         'bg-[#08090f] border-r border-white/[0.06]',
         'transition-transform duration-300 ease-in-out',
         open ? 'translate-x-0' : '-translate-x-full lg:translate-x-0',
       ].join(' ')}
     >
       {/* Brand header */}
-      <div className="flex items-center justify-between px-5 pt-6 pb-4 shrink-0">
+      <div className="flex items-center justify-between px-4 sm:px-5 pt-5 sm:pt-6 pb-3 sm:pb-4 shrink-0">
         <div className="flex items-center gap-2.5">
           <div className="w-7 h-7 rounded-lg bg-violet-500/15 border border-violet-500/20 flex items-center justify-center shrink-0">
             <Brain size={13} className="text-violet-400" />

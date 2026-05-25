@@ -18,16 +18,108 @@
   background: rgba(255, 255, 255, 0.12);
 }
 
-/* ─── Visual Research Card Gradient ──────────────────────────────────────────── */
+/* ─── Visual note cards (theme-aligned patterns) ─────────────────────────────── */
 
+.visual-card {
+  position: relative;
+  isolation: isolate;
+}
+
+.visual-card__pattern {
+  background-color: #0a0b14;
+  background-image:
+    radial-gradient(circle at 1px 1px, rgba(139, 145, 184, 0.12) 1px, transparent 0);
+  background-size: 18px 18px;
+}
+
+.visual-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.9;
+}
+
+.visual-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  mix-blend-mode: soft-light;
+}
+
+.visual-card--violet::before {
+  background:
+    radial-gradient(ellipse 90% 70% at 20% 80%, rgba(124, 58, 237, 0.45) 0%, transparent 55%),
+    radial-gradient(ellipse 70% 60% at 85% 20%, rgba(99, 102, 241, 0.35) 0%, transparent 50%),
+    linear-gradient(145deg, #13142a 0%, #1a1035 50%, #0d0e1c 100%);
+}
+
+.visual-card--violet::after {
+  background: linear-gradient(
+    105deg,
+    transparent 30%,
+    rgba(167, 139, 250, 0.12) 45%,
+    rgba(139, 92, 246, 0.08) 55%,
+    transparent 70%
+  );
+}
+
+.visual-card--cyan::before {
+  background:
+    radial-gradient(ellipse 80% 65% at 75% 75%, rgba(6, 182, 212, 0.4) 0%, transparent 55%),
+    radial-gradient(ellipse 60% 50% at 15% 25%, rgba(59, 130, 246, 0.3) 0%, transparent 50%),
+    linear-gradient(160deg, #0c1220 0%, #0f1a2e 45%, #0a0b14 100%);
+}
+
+.visual-card--cyan::after {
+  background: repeating-linear-gradient(
+    -45deg,
+    transparent,
+    transparent 8px,
+    rgba(56, 189, 248, 0.04) 8px,
+    rgba(56, 189, 248, 0.04) 9px
+  );
+}
+
+.visual-card--indigo::before {
+  background:
+    radial-gradient(ellipse 75% 80% at 50% 100%, rgba(79, 70, 229, 0.5) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 40% at 90% 10%, rgba(168, 85, 247, 0.25) 0%, transparent 45%),
+    linear-gradient(180deg, #12132a 0%, #18153a 100%);
+}
+
+.visual-card--indigo::after {
+  background-image:
+    linear-gradient(rgba(99, 102, 241, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(99, 102, 241, 0.06) 1px, transparent 1px);
+  background-size: 22px 22px;
+}
+
+.visual-card--amber::before {
+  background:
+    radial-gradient(ellipse 85% 60% at 30% 30%, rgba(245, 158, 11, 0.35) 0%, transparent 55%),
+    radial-gradient(ellipse 70% 70% at 80% 80%, rgba(217, 70, 130, 0.2) 0%, transparent 50%),
+    linear-gradient(135deg, #14101f 0%, #1f1528 50%, #0d0e1c 100%);
+}
+
+.visual-card--amber::after {
+  background: radial-gradient(
+    circle at 50% 50%,
+    rgba(251, 191, 36, 0.08) 0%,
+    transparent 65%
+  );
+}
+
+/* Legacy alias */
 .vr-card::before {
   content: '';
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(ellipse 80% 60% at 50% 40%, rgba(217, 70, 130, 0.24) 0%, transparent 70%),
-    radial-gradient(ellipse 60% 80% at 20% 60%, rgba(139, 92, 246, 0.20) 0%, transparent 60%),
-    radial-gradient(ellipse 50% 40% at 80% 30%, rgba(244, 114, 182, 0.14) 0%, transparent 50%);
+    radial-gradient(ellipse 90% 70% at 20% 80%, rgba(124, 58, 237, 0.45) 0%, transparent 55%),
+    radial-gradient(ellipse 70% 60% at 85% 20%, rgba(99, 102, 241, 0.35) 0%, transparent 50%),
+    linear-gradient(145deg, #13142a 0%, #1a1035 50%, #0d0e1c 100%);
   pointer-events: none;
 }
 
@@ -36,7 +128,8 @@
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(125deg, transparent 35%, rgba(236, 72, 153, 0.16) 42%, rgba(167, 139, 250, 0.13) 55%, transparent 65%),
-    linear-gradient(200deg, transparent 40%, rgba(255, 100, 160, 0.08) 55%, transparent 70%);
+    radial-gradient(circle at 1px 1px, rgba(139, 145, 184, 0.1) 1px, transparent 0);
+  background-size: 16px 16px;
   pointer-events: none;
+  opacity: 0.6;
 }

@@ -33,7 +33,7 @@ export interface NewNotePayload {
 interface NewNoteModalProps {
   open: boolean
   onClose: () => void
-  onCreate?: (payload: NewNotePayload) => void
+  onCreate?: (payload: NewNotePayload) => void | Promise<void>
 }
 
 const tabs: { id: NewNoteTab; label: string; icon: typeof FileText }[] = [
@@ -192,7 +192,7 @@ export function NewNoteModal({ open, onClose, onCreate }: NewNoteModalProps) {
     })
   }
 
-  const handleCreate = useCallback(() => {
+  const handleCreate = useCallback(async () => {
     const trimmedTitle = title.trim()
     const trimmedBody = body.trim()
 
@@ -222,17 +222,21 @@ export function NewNoteModal({ open, onClose, onCreate }: NewNoteModalProps) {
     }
 
     setError(null)
-    onCreate?.({
-      tab: activeTab,
-      title: trimmedTitle,
-      body: trimmedBody,
-      folder,
-      tags,
-      date,
-      attachmentNames: attachments.map(a => a.name),
-      reminder: reminder || undefined,
-    })
-    onClose()
+    try {
+      await onCreate?.({
+        tab: activeTab,
+        title: trimmedTitle,
+        body: trimmedBody,
+        folder,
+        tags,
+        date,
+        attachmentNames: attachments.map(a => a.name),
+        reminder: reminder || undefined,
+      })
+      onClose()
+    } catch {
+      /* parent shows error; keep modal open */
+    }
   }, [activeTab, attachments, body, date, folder, onClose, onCreate, reminder, tags, title])
 
   useEffect(() => {
@@ -249,7 +253,7 @@ export function NewNoteModal({ open, onClose, onCreate }: NewNoteModalProps) {
       }
       if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') {
         e.preventDefault()
-        handleCreate()
+        void handleCreate()
       }
     }
     window.addEventListener('keydown', onKeyDown)
@@ -262,7 +266,7 @@ export function NewNoteModal({ open, onClose, onCreate }: NewNoteModalProps) {
 
   return (
     <div
-      className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm"
+      className="fixed inset-0 z-[100] flex items-end sm:items-center justify-center p-0 sm:p-4 bg-black/60 backdrop-blur-sm"
       role="dialog"
       aria-modal="true"
       aria-labelledby="new-note-title"
@@ -270,7 +274,7 @@ export function NewNoteModal({ open, onClose, onCreate }: NewNoteModalProps) {
     >
       <div
         ref={modalRef}
-        className="w-full max-w-[520px] rounded-xl border border-white/[0.08] bg-[#0f1018] shadow-2xl shadow-black/50 overflow-hidden"
+        className="w-full sm:max-w-[520px] max-h-[92dvh] sm:max-h-[90vh] overflow-y-auto rounded-t-xl sm:rounded-xl border border-white/[0.08] bg-[#0f1018] shadow-2xl shadow-black/50"
         onClick={e => e.stopPropagation()}
       >
         {/* Header */}
@@ -656,7 +660,7 @@ export function NewNoteModal({ open, onClose, onCreate }: NewNoteModalProps) {
             </span>
             <button
               type="button"
-              onClick={handleCreate}
+              onClick={() => void handleCreate()}
               className="px-4 py-2 rounded-lg bg-violet-600 hover:bg-violet-500 text-[#0d0e1c] text-[13px] font-semibold transition-colors duration-150 cursor-pointer"
             >
               {cfg.submit}
